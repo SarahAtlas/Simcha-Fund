@@ -1,0 +1,24 @@
+﻿@using Homework___April_23.Data
+@using Homework___April_23.Models
+@model EmailOrganizerViewModel
+
+
+<div class="container">
+    <h1 style="text-align:center">Contributor list for @Model.Simcha.SimchaName</h1>
+    <br>
+
+
+    @if (Model.Contributors.Count() == 0)
+    {
+        <h4 style="text-align:center">There are no contributors for this Simcha</h4>
+    }
+    else
+    {
+        foreach (Contributor contributor in Model.Contributors.OrderBy(c => c.LastName))
+        {
+            <h4 style="text-align:center">@contributor.LastName, @contributor.FirstName</h4>
+        }
+    }
+    
+
+</div>

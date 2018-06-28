@@ -1,0 +1,26 @@
+﻿@using Homework___April_23.Data
+@using Homework___April_23.Models
+@model ShowHistoryViewModel
+<div class="header">
+    <h1 style="text-align: center; vertical-align: middle;">History for @Model.Contributor.FirstName @Model.Contributor.LastName</h1>
+    <h3 style="text-align: center; vertical-align: middle;">Current Balance: @Model.Contributor.Balance.ToString("C")</h3>
+</div>
+<div class="row header">
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <tr style="text-align: center; vertical-align: middle;">
+                <th style="text-align: center; vertical-align: middle; width: 45%">Action</th>
+                <th style="text-align: center; vertical-align: middle;">Date</th>
+                <th style="text-align: center; vertical-align: middle;">Amount</th>
+            </tr>
+            @foreach (History history in Model.Historys.OrderByDescending(h => h.Date))
+            {
+                <tr>
+                    <td style="text-align: center; vertical-align: middle;">@history.Action</td>
+                    <td style="text-align: center; vertical-align: middle;">@history.Date.ToShortDateString()</td>
+                    <td style="text-align: center; vertical-align: middle;">@history.Amount.ToString("C")</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

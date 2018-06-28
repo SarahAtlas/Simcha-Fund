@@ -1,0 +1,87 @@
+﻿@using Homework___April_23.Data
+@using Homework___April_23.Models
+@model ContributionViewModel
+
+
+<div class="header">
+    <h1 style="text-align: center; vertical-align: middle;">Contributions for @Model.Simcha.SimchaName</h1>
+</div>
+<div class="header row">
+    <div class="col-md-5"></div>
+    <div class="col-md-2">
+        <input type="text" class="input-sm " placeholder="Search" id="search" />
+    </div>
+    <div class="col-md-1">
+        <button class="btn btn-block " id="clear">Clear</button>
+    </div>
+</div>
+<br />
+<div class="table-responsive">
+    <form method="POST" action="/Simcha/UpdateContributions">
+        <input type="hidden" name="simchaId" value="@Model.Simcha.Id" />
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th style="text-align: center; vertical-align: middle;">Contribute</th>
+                <th style="text-align: center; vertical-align: middle;">Name</th>
+                <th style="text-align: center; vertical-align: middle;">Balance</th>
+                <th style="text-align: center; vertical-align: middle;">Always Include</th>
+                <th style="text-align: center; vertical-align: middle;">Amount</th>
+            </tr>
+
+           @{ int index = 0;}
+            @foreach (ContributorContribution cc in Model.Contributors.OrderBy(c => c.Contributor.LastName))
+            {
+                <input type="hidden" name="contributors[@index].Contributor.Id" value="@cc.Contributor.Id" />
+                <tr>
+                    <td style="text-align: center; vertical-align: middle;">
+
+                        @if (cc.ContributionAmount != null)
+                        {
+                            <input class="contribute" type="checkbox" name="contributors[@index].Contribute" checked value="true" />
+                            <input type="hidden" name="contributors[@index].Contribute" value="false" />
+                        }
+                        else
+                        {
+                            <input class="contribute" type="checkbox" name="contributors[@index].Contribute" value="true" />
+                            <input type="hidden" name="contributors[@index].Contribute" value="false" />
+                        }
+                    </td>
+                    <td style="text-align: center; vertical-align: middle;" >@cc.Contributor.LastName, @cc.Contributor.FirstName</td>
+                    
+                    @if (cc.Contributor.Balance < 0)
+                    {
+                        <td style="text-align: center; vertical-align: middle; color:red; font-weight:bolder;">-@cc.Contributor.Balance.ToString("C")</td>
+                    }
+                    else
+                    {
+                        <td style="text-align: center; vertical-align: middle; ">@cc.Contributor.Balance.ToString("C")</td>
+                    }
+
+                    <td style="text-align: center; vertical-align: middle;">
+                        @if (cc.Contributor.AlwaysInclude)
+                        {
+                            <span style="font-size: 20px;" class="glyphicon glyphicon-ok-sign"></span>
+                        }
+                    </td>
+                    <td style="text-align: center; vertical-align: middle;">
+                        <input type="text" class="form-control" value="@(cc.ContributionAmount ?? 5)" name="contributors[@index].ContributionAmount" />
+                    </td>
+                </tr>
+                { index++; }
+                    }
+        </table>
+        <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+                <button class="btn-lg btn-block btn-primary">Update</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/Contribution.js"></script>
+}
+
+
+
