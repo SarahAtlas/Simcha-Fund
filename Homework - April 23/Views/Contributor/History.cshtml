@@ -3,7 +3,14 @@
 @model ShowHistoryViewModel
 <div class="header">
     <h1 style="text-align: center; vertical-align: middle;">History for @Model.Contributor.FirstName @Model.Contributor.LastName</h1>
-    <h3 style="text-align: center; vertical-align: middle;">Current Balance: @Model.Contributor.Balance.ToString("C")</h3>
+    @if (Model.Contributor.Balance < 0)
+    {
+        <h3 style="text-align: center; vertical-align: middle; color:red">Current Balance: -@Model.Contributor.Balance.ToString("C")</h3>
+    }
+    else
+    {
+        <h3 style="text-align: center; vertical-align: middle;">Current Balance: @Model.Contributor.Balance.ToString("C")</h3>
+    }
 </div>
 <div class="row header">
     <div class="table-responsive">
